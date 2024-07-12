@@ -1,0 +1,25 @@
+.main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+}
+.image{
+    width: 200px;
+    height: 200px;
+    align-self: center;
+}
+.row-container{
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    margin: auto;
+}
+.row-container input{
+    width: 350px;
+    height: 30px;
+    padding-left: 14px;
+    border-radius: 8px;
+    border: 2px solid #eeeeee;
+    align-self: right;
+}

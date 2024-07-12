@@ -1,0 +1,6 @@
+PORT = 5500
+GOOGLE_CLIENT_ID = "" 
+GOOGLE_CLIENT_SECRET = ""
+MONGODB_URI = ""  // Mongo DB connection URL
+SESSION_SECRET = "" // random Generated string to encrypt the user data while Signing In // Generated with the crypto random
+CALLBACK_URI = "" // Redirect URL after authenticated by provider like Google 
