@@ -55,6 +55,13 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails[0].value;
+        const domain = email.split("@")[1];
+
+        // Check if the email domain is "srmap.edu.in"
+        if (domain !== "srmap.edu.in") {
+          return done(null, false, { message: "Unauthorized domain" });
+        }
+
         const displayName = profile.displayName.split(" | ")[0] || profile.displayName;
         const rollNo = profile.displayName.split(" | ")[1] || "";
         const photoUrl = profile.photos[0].value;
@@ -105,26 +112,22 @@ app.get(
   })
 );
 
-app.get('/login/success',async (req,res)=>{
-    // console.log('request',req.user)
-    // res.send(req.user);
+app.get('/login/success', (req, res) => {
+  if (req.user) {
+    res.status(200).json({ authenticated: true, user: req.user });
+  } else {
+    res.status(401).json({ authenticated: false, message: "Not Authorized" });
+  }
+});
 
-    if(req.user){
-        res.status(200).json({message:"User Login",user:req.user})
-    }else{
-        res.status(400).json({message:"Not Authorized"})
+app.get('/logout', (req, res, next) => {
+  req.logOut(function (err) {
+    if (err) {
+      return next(err);
     }
-})
-
-app.get('/logout',(req,res,next)=>{
-    req.logOut(function(err){
-        if(err){
-            return next(err)
-        }
-        res.redirect('http://localhost:3000/login')
-    })
-})
-
+    res.redirect('http://localhost:3000/login');
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

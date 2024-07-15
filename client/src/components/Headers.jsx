@@ -5,17 +5,21 @@ import "./headers.css";
 
 export default function Headers() {
   const [userData, setUserData] = useState({});
-  const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+  const navigate = useNavigate();
 
   const getUser = async () => {
     try {
       const response = await axios.get("http://localhost:5500/login/success", {
         withCredentials: true,
       });
-      setUserData(response.data.user);
+      if (response.data.authenticated) {
+        setUserData(response.data.user);
+      } else {
+        navigate('/login'); // Redirect to login if not authenticated
+      }
     } catch (error) {
       console.log(error);
-      navigate('*'); // Redirect to login on error
+      navigate('/login'); // Redirect to login on error
     }
   };
 
